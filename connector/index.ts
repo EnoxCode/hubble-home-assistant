@@ -137,6 +137,36 @@ export default function homeAssistantConnector(sdk: ServerSdk) {
           watched.add(security.alarmEntityId);
         }
       }
+
+      // Appliance visualization
+      if (typeof wc.statusEntity === 'string' && wc.statusEntity) {
+        watched.add(wc.statusEntity);
+      }
+      if (Array.isArray(wc.metricCells)) {
+        for (const cell of wc.metricCells as Array<Record<string, unknown>>) {
+          if (typeof cell.entityId === 'string' && cell.entityId) {
+            watched.add(cell.entityId);
+          }
+        }
+      }
+      if (typeof wc.progressSource === 'string' && wc.progressSource !== 'none') {
+        watched.add(wc.progressSource);
+      }
+      if (Array.isArray(wc.secondaryEntities)) {
+        for (const se of wc.secondaryEntities as Array<Record<string, unknown>>) {
+          if (typeof se.entityId === 'string' && se.entityId) {
+            watched.add(se.entityId);
+          }
+        }
+      }
+      if (Array.isArray(wc.warnings)) {
+        for (const w of wc.warnings as Array<Record<string, unknown>>) {
+          if (typeof w.entityId === 'string' && w.entityId) {
+            watched.add(w.entityId);
+          }
+          collectConditionEntities(w.visibilityConditions, watched);
+        }
+      }
     }
     return watched;
   }
