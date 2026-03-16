@@ -1,0 +1,177 @@
+.ha-appliance-configure .preset-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.ha-appliance-configure .preset-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--hubble-text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.ha-appliance-configure .preset-chip:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.ha-appliance-configure .preset-chip.active {
+  background: rgba(96, 165, 250, 0.18);
+  border-color: rgba(96, 165, 250, 0.5);
+  color: var(--hubble-accent);
+}
+
+.ha-appliance-configure .cell-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.ha-appliance-configure .cell-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ha-appliance-configure .cell-row .cell-label-input {
+  flex: 0 0 80px;
+}
+
+.ha-appliance-configure .cell-row .entity-select-btn {
+  flex: 1;
+}
+
+.ha-appliance-configure .entity-select-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  background: rgba(96, 165, 250, 0.1);
+  border: 1px solid rgba(96, 165, 250, 0.22);
+  border-radius: 8px;
+  padding: 7px 10px;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  font-size: 12px;
+}
+
+.ha-appliance-configure .entity-select-btn:has(.entity-placeholder) {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed rgba(255, 255, 255, 0.18);
+}
+
+.ha-appliance-configure .entity-domain {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+
+.ha-appliance-configure .entity-name {
+  font-size: 12px;
+  color: #93c5fd;
+  font-weight: 500;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ha-appliance-configure .entity-placeholder {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.35);
+  flex: 1;
+}
+
+.ha-appliance-configure .entity-chevron {
+  width: 14px;
+  height: 14px;
+  color: rgba(255, 255, 255, 0.25);
+  flex-shrink: 0;
+}
+
+.ha-appliance-configure .entity-select-btn--spaced {
+  margin-top: 6px;
+}
+
+.ha-appliance-configure .add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--hubble-text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.ha-appliance-configure .add-btn:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: var(--hubble-text-primary);
+}
+
+.ha-appliance-configure .remove-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: color 0.15s;
+  flex-shrink: 0;
+}
+
+.ha-appliance-configure .remove-btn:hover {
+  color: var(--hubble-danger);
+}
+
+.ha-appliance-configure .warning-item {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 6px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.ha-appliance-configure .warning-item--expanded {
+  flex-direction: column;
+}
+
+.ha-appliance-configure .warning-item-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ha-appliance-configure .section-divider {
+  height: 1px;
+  background: var(--hubble-panel-border, rgba(255, 255, 255, 0.08));
+  margin: 14px 0;
+}
+
+.ha-state-mapping-hint {
+  font-size: 12px;
+  color: var(--hubble-text-secondary);
+  margin-bottom: 12px;
+}
