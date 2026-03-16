@@ -248,6 +248,56 @@ export function evaluateConditions(
   return results.some(Boolean);
 }
 
+// === Appliance Visualization ===
+
+export interface MetricCell {
+  /** Label shown above the value (e.g., 'Temp', 'Time') */
+  label: string;
+  /** HA entity ID */
+  entityId: string;
+}
+
+export interface SecondaryEntity {
+  /** HA entity ID */
+  entityId: string;
+  /** Optional label override (otherwise uses entity friendly_name) */
+  label?: string;
+}
+
+export interface WarningRule {
+  /** HA entity ID that triggers the warning */
+  entityId: string;
+  /** MDI icon name for the warning (e.g., 'mdi:door-open') */
+  icon?: string;
+  /** Warning text to display */
+  label: string;
+  /** Severity: warning (yellow) or critical (red) */
+  severity: 'warning' | 'critical';
+  /** Conditions that must be met for warning to appear */
+  visibilityConditions: ConditionGroup;
+}
+
+export interface ApplianceConfig {
+  /** Widget display name */
+  name: string;
+  /** MDI icon name (e.g., 'mdi:stove') */
+  icon: string;
+  /** Entity that drives overall status (border color + header status text) */
+  statusEntity?: string;
+  /** State rules for the status entity — maps state values to border color */
+  statusRules: StateRule[];
+  /** Ordered metric cells shown in the strip (1–4) */
+  metricCells: MetricCell[];
+  /** Progress source: 'none' or an entity ID providing a 0–100 numeric value */
+  progressSource: string;
+  /** Additional entities shown as secondary meta text */
+  secondaryEntities: SecondaryEntity[];
+  /** Warning rules — shown when visibility condition is met */
+  warnings: WarningRule[];
+  /** Visibility conditions for the entire widget */
+  visibilityConditions?: ConditionGroup;
+}
+
 export function normalizeToTwoLevel(root: ConditionGroup): ConditionGroup {
   const bareConditions = root.conditions.filter(
     (c): c is Condition => !isConditionGroup(c),
