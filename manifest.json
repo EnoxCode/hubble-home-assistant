@@ -183,6 +183,24 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Appliance",
+      "description": "Reusable appliance monitor with metric strip, progress bar, and warnings",
+      "path": "appliance",
+      "configPanels": [
+        { "label": "Configure", "panel": "configure" },
+        { "label": "State Mapping", "panel": "state-mapping" },
+        { "label": "Configure Visibility", "panel": "visibility" }
+      ],
+      "properties": [
+        {
+          "name": "title",
+          "type": "string",
+          "required": true,
+          "description": "Widget title shown in the editor"
+        }
+      ]
     }
   ]
 }
