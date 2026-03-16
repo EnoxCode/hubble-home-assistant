@@ -10,9 +10,10 @@
   flex-shrink: 0;
 }
 
-.ha-appliance-status-text {
-  color: var(--dash-state-positive);
-}
+.ha-appliance-status--positive { color: var(--dash-state-positive); }
+.ha-appliance-status--warning  { color: var(--dash-state-warning); }
+.ha-appliance-status--critical { color: var(--dash-state-critical); }
+.ha-appliance-status--neutral  { color: var(--dash-text-muted); }
 
 /* ─── Metric Strip ───────────────────────── */
 .ha-appliance-strip {
@@ -94,6 +95,12 @@
 }
 
 /* ─── Warning Text ────────────────────────── */
+.ha-appliance-warning-text--warning,
+.ha-appliance-warning-text--critical {
+  font-size: 11px;
+  font-weight: 500;
+}
+
 .ha-appliance-warning-text--warning {
   color: var(--dash-state-warning);
 }

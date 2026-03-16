@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useConnectorData, useWidgetConfig, useHubbleSDK } from 'hubble-sdk';
-import { DashWidget, DashWidgetFooter } from 'hubble-dash-ui';
+import { DashWidget } from 'hubble-dash-ui';
 import type { ApplianceConfig } from '../../shared/types';
 import { evaluateConditions } from '../../shared/types';
 import { resolveStateRules, worstStatus } from '../../shared/state-utils';
@@ -165,7 +165,8 @@ export default function ApplianceWidget() {
     .map((se) => {
       const data = entityStates.get(se.entityId);
       if (!data) return null;
-      return se.label || data.attributes?.friendly_name || data.state;
+      const value = toTitleCase(data.state);
+      return se.label ? `${se.label}: ${value}` : value;
     })
     .filter(Boolean)
     .join(' \u00b7 ');
@@ -177,24 +178,24 @@ export default function ApplianceWidget() {
   const visibleWarnings = activeWarnings.slice(0, MAX_WARNINGS);
   const overflowCount = activeWarnings.length - MAX_WARNINGS;
 
-  // Status dot aggregation
-  const resolvedColors: string[] = [];
-  if (statusResolved?.color) resolvedColors.push(statusResolved.color);
-  const dotStatus = activeWarnings.length > 0 ? 'warn' : worstStatus(resolvedColors);
+  // Upgrade border to warning/critical if warnings are active
+  const hasWarning = activeWarnings.some((w) => w.severity === 'warning');
+  const hasCritical = activeWarnings.some((w) => w.severity === 'critical');
+  const effectiveBorder = hasCritical ? 'critical' : hasWarning ? 'warning' : borderVariant;
 
   return (
-    <DashWidget statusBorder={borderVariant}>
+    <DashWidget statusBorder={effectiveBorder}>
       {/* Custom header with inline icon */}
       <div className="dash-widget-header">
         <div className="ha-appliance-header-left">
           {iconPath && (
             <svg className={`ha-appliance-header-icon${isRunning ? '' : ' ha-appliance-icon--off'}`} width="18" height="18" viewBox="0 0 24 24">
-              <path d={iconPath} fill={isRunning ? (statusResolved?.color ?? 'currentColor') : undefined} />
+              <path d={iconPath} fill={isRunning ? `var(--dash-state-${effectiveBorder})` : undefined} />
             </svg>
           )}
           <span className="t-label">{config.name || ''}</span>
         </div>
-        <span className={`t-meta${isRunning && statusResolved?.color ? ' ha-appliance-status-text' : ''}`}>
+        <span className={`t-meta${isRunning ? ` ha-appliance-status--${effectiveBorder}` : ''}`}>
           {statusLabel}
         </span>
       </div>
@@ -253,14 +254,6 @@ export default function ApplianceWidget() {
         </>
       )}
 
-      {/* Off state: just icon dimmed */}
-      {!isRunning && iconPath && (
-        <svg className="ha-appliance-icon ha-appliance-icon--off" width="24" height="24" viewBox="0 0 24 24">
-          <path d={iconPath} fill="currentColor" />
-        </svg>
-      )}
-
-      <DashWidgetFooter updatedAt={lastSyncMs} status={dotStatus} />
     </DashWidget>
   );
 }

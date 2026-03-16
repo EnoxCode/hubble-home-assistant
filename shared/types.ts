@@ -15,7 +15,7 @@ export interface ConditionGroup {
 
 export interface Condition {
   entity_id: string;
-  operator: 'equals' | 'not_equals' | 'contains' | 'not_contains' | 'is_empty';
+  operator: 'equals' | 'not_equals' | 'contains' | 'not_contains' | 'is_empty' | 'greater_than' | 'less_than';
   value?: string;
 }
 
@@ -237,6 +237,16 @@ export function evaluateConditions(
         return !entityState.includes(item.value ?? '');
       case 'is_empty':
         return entityState === '' || entityState === undefined;
+      case 'greater_than': {
+        const num = parseFloat(entityState);
+        const target = parseFloat(item.value ?? '');
+        return !isNaN(num) && !isNaN(target) && num > target;
+      }
+      case 'less_than': {
+        const num = parseFloat(entityState);
+        const target = parseFloat(item.value ?? '');
+        return !isNaN(num) && !isNaN(target) && num < target;
+      }
       default:
         return true;
     }

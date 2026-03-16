@@ -13,6 +13,8 @@ export interface VisibilityBuilderProps {
 const OPERATORS = [
   { value: 'equals',       label: 'equals' },
   { value: 'not_equals',   label: 'does not equal' },
+  { value: 'greater_than', label: 'greater than' },
+  { value: 'less_than',    label: 'less than' },
   { value: 'contains',     label: 'contains' },
   { value: 'not_contains', label: 'does not contain' },
   { value: 'is_empty',     label: 'is empty' },

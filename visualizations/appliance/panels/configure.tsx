@@ -190,45 +190,40 @@ export default function ConfigurePanel({ config, onConfigChange, moduleId }: Con
       <Field label={`Metric Cells (max ${MAX_METRIC_CELLS})`}>
         <div className="cell-list">
           {metricCells.map((cell, i) => (
-            <div key={i} className="cell-row cell-row--multi">
-              <div className="cell-row-main">
-                <div className="cell-label-input">
-                  <Input
-                    type="text"
-                    value={cell.label}
-                    onChange={(v) => updateMetricCell(i, { label: v || '' })}
-                    placeholder="Label"
-                  />
-                </div>
-                <button className="entity-select-btn" onClick={() => setOpenPicker({ kind: 'metric', index: i })}>
-                  {cell.entityId ? (
-                    <>
-                      {entityLabel(cell.entityId).domain && (
-                        <span className="entity-domain">{entityLabel(cell.entityId).domain}</span>
-                      )}
-                      <span className="entity-name">{entityLabel(cell.entityId).name}</span>
-                    </>
-                  ) : (
-                    <span className="entity-placeholder">Pick an entity...</span>
-                  )}
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="entity-chevron">
-                    <path d="M2 5l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-                <button className="remove-btn" onClick={() => removeMetricCell(i)} title="Remove cell">
-                  ×
-                </button>
+            <div key={i} className="cell-row">
+              <div className="cell-label-input">
+                <Input
+                  type="text"
+                  value={cell.label}
+                  onChange={(v) => updateMetricCell(i, { label: v || '' })}
+                  placeholder="Label"
+                />
               </div>
-              <div className="cell-row-options">
-                <label className="format-toggle">
-                  <input
-                    type="checkbox"
-                    checked={cell.formatState === 'titlecase'}
-                    onChange={(e) => updateMetricCell(i, { formatState: e.target.checked ? 'titlecase' : 'raw' })}
-                  />
-                  <span className="format-toggle-label">Title Case</span>
-                </label>
-              </div>
+              <button className="entity-select-btn" onClick={() => setOpenPicker({ kind: 'metric', index: i })}>
+                {cell.entityId ? (
+                  <>
+                    {entityLabel(cell.entityId).domain && (
+                      <span className="entity-domain">{entityLabel(cell.entityId).domain}</span>
+                    )}
+                    <span className="entity-name">{entityLabel(cell.entityId).name}</span>
+                  </>
+                ) : (
+                  <span className="entity-placeholder">Pick an entity...</span>
+                )}
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="entity-chevron">
+                  <path d="M2 5l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+              <button
+                className={`format-btn${cell.formatState === 'titlecase' ? ' format-btn--active' : ''}`}
+                onClick={() => updateMetricCell(i, { formatState: cell.formatState === 'titlecase' ? 'raw' : 'titlecase' })}
+                title="Title Case formatting"
+              >
+                Aa
+              </button>
+              <button className="remove-btn" onClick={() => removeMetricCell(i)} title="Remove cell">
+                ×
+              </button>
             </div>
           ))}
         </div>
