@@ -1,6 +1,6 @@
 {
   "name": "home-assistant",
-  "version": "1.7.1",
+  "version": "2.0.0",
   "description": "Home Assistant integration with entity state pills, state lists, and persistent notifications",
   "minAppVersion": "0.1.1",
   "type": [
@@ -189,9 +189,18 @@
       "description": "Reusable appliance monitor with metric strip, progress bar, and warnings",
       "path": "appliance",
       "configPanels": [
-        { "label": "Configure", "panel": "configure" },
-        { "label": "State Mapping", "panel": "state-mapping" },
-        { "label": "Configure Visibility", "panel": "visibility" }
+        {
+          "label": "Configure",
+          "panel": "configure"
+        },
+        {
+          "label": "State Mapping",
+          "panel": "state-mapping"
+        },
+        {
+          "label": "Configure Visibility",
+          "panel": "visibility"
+        }
       ],
       "properties": [
         {
