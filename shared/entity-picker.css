@@ -1,0 +1,165 @@
+.entity-picker-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.entity-picker-modal {
+  background: var(--color-surface, #1b1d2e);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 50px rgba(0, 0, 0, 0.8);
+  width: 440px;
+  max-width: 90vw;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.entity-picker-header {
+  padding: 14px 14px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  flex-shrink: 0;
+}
+
+.entity-picker-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 10px;
+}
+
+.entity-picker-search {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 7px;
+  padding: 8px 10px;
+  font-size: 12px;
+  color: white;
+  outline: none;
+}
+
+.entity-picker-search:focus {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.entity-picker-domains {
+  display: flex;
+  gap: 5px;
+  padding: 8px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.entity-picker-domain-chip {
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.45);
+  background: none;
+  white-space: nowrap;
+}
+
+.entity-picker-domain-chip--active {
+  background: rgba(59, 130, 246, 0.22);
+  border-color: #3b82f6;
+  color: #93c5fd;
+}
+
+.entity-picker-list {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.entity-picker-status {
+  padding: 16px;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.entity-picker-domain-group {
+  padding: 8px 14px 4px;
+}
+
+.entity-picker-domain-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.25);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 3px;
+}
+
+.entity-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  color: inherit;
+}
+
+.entity-picker-row:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.entity-picker-row--selected {
+  background: rgba(59, 130, 246, 0.18);
+}
+
+.entity-picker-row-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.entity-picker-friendly-name {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.entity-picker-entity-id {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.32);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.entity-picker-state {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.38);
+  flex-shrink: 0;
+}
+
+.entity-picker-check {
+  color: #60a5fa;
+  font-size: 13px;
+  flex-shrink: 0;
+}

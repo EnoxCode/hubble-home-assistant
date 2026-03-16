@@ -1,0 +1,71 @@
+/* HA Notifications — card type system */
+
+.ha-notif-stack { display: flex; flex-direction: column; gap: 6px; }
+
+.ha-notif {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border-left: 3px solid transparent;
+  display: flex;
+  gap: 10px;
+}
+
+.ha-notif--standard {
+  flex-direction: column;
+  gap: 5px;
+}
+
+.ha-notif--critical { border-left-color: var(--dash-state-critical); background: rgba(248, 113, 113, 0.12); }
+.ha-notif--warning  { border-left-color: var(--dash-state-warning);  background: rgba(251, 191, 36,  0.09); }
+.ha-notif--info     { border-left-color: var(--dash-state-info);     background: rgba(96,  165, 250, 0.12); }
+.ha-notif--neutral  { border-left-color: rgba(255, 255, 255, 0.18); background: rgba(255, 255, 255, 0.05); }
+
+.ha-notif-content { flex: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.ha-notif-title { font-size: 11px; font-weight: 600; color: var(--dash-text-primary); line-height: 1.2; }
+.ha-notif-text  { font-size: 10px; font-weight: 400; color: var(--dash-text-secondary); line-height: 1.5; }
+.ha-notif-time  { font-size: 8px; color: var(--dash-text-muted); }
+
+.ha-notif-icon {
+  flex-shrink: 0;
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+}
+.ha-notif-icon--critical { background: rgba(248, 113, 113, 0.2); color: var(--dash-state-critical); }
+.ha-notif-icon--warning  { background: rgba(251, 191, 36,  0.15); color: var(--dash-state-warning); }
+.ha-notif-icon--info     { background: rgba(96,  165, 250, 0.15); color: var(--dash-state-info); }
+.ha-notif-icon--neutral  { background: rgba(255, 255, 255, 0.08); color: var(--dash-text-secondary); }
+
+.ha-notif-source {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 8px; color: var(--dash-text-muted); margin-top: 2px;
+}
+.ha-notif-source-dot { width: 4px; height: 4px; border-radius: 50%; flex-shrink: 0; }
+
+.ha-notif-title-row { display: flex; justify-content: space-between; align-items: center; }
+.ha-notif-status {
+  display: inline-flex; align-items: center;
+  padding: 1px 6px; border-radius: 10px;
+  font-size: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px;
+}
+.ha-notif-status--done   { background: rgba(74,  222, 128, 0.15); color: var(--dash-state-positive); }
+.ha-notif-status--error  { background: rgba(248, 113, 113, 0.15); color: var(--dash-state-critical); }
+.ha-notif-status--active { background: rgba(96,  165, 250, 0.15); color: var(--dash-state-info); }
+
+.ha-notif-summary { display: flex; flex-direction: column; gap: 4px; }
+.ha-notif-summary-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 4px 0; border-bottom: 1px solid var(--dash-divider);
+}
+.ha-notif-summary-row:last-child { border-bottom: none; }
+.ha-notif-summary-label {
+  font-size: 10px; color: var(--dash-text-secondary);
+  display: flex; align-items: center; gap: 6px;
+}
+.ha-notif-summary-icon { color: var(--dash-text-muted); display: flex; align-items: center; }
+.ha-notif-summary-value { font-size: 10px; font-weight: 600; color: var(--dash-text-primary); }
+
+.ha-notif-action {
+  font-size: 8px; font-weight: 500; color: var(--dash-state-warning);
+  margin-top: 2px; display: flex; align-items: center; gap: 3px;
+}

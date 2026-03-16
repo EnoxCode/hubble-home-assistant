@@ -1,0 +1,32 @@
+/* HA List — spec: docs/superpowers/specs/2026-03-14-dashboard-home-assistant-module.md */
+
+.ha-list-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--dash-divider);
+  gap: 8px;
+}
+.ha-list-row:last-child { border-bottom: none; }
+
+.ha-list-name { font-size: 11px; font-weight: 400; color: var(--dash-text-primary); flex: 1; }
+
+/* Dot variant — color driven by --ha-state-color custom property */
+.ha-list-state { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
+.ha-list-dot   { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; background: var(--ha-state-color, rgba(255, 255, 255, 0.25)); }
+
+.ha-list-value { font-size: 10px; font-weight: 500; color: var(--ha-state-color, var(--dash-text-muted)); }
+
+/* Badge variant — color driven by --ha-state-color custom property */
+.ha-list-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 9px;
+  font-weight: 500;
+  flex-shrink: 0;
+  color: var(--ha-state-color, var(--dash-text-muted));
+  background: color-mix(in srgb, var(--ha-state-color, white) 15%, transparent);
+}

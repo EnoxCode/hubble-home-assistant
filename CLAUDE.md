@@ -1,6 +1,6 @@
-# HubbleHomeAssistant
+# Home Assistant Module
 
-Several visuals for home assistant data
+Home Assistant integration with entity state pills, state lists, persistent notifications, and SVG minimap.
 
 This is a Hubble module (type: **connector + visualization**). Hubble is an Electron-based kitchen dashboard that runs on a Raspberry Pi with a portrait 1920x1080 screen.
 
@@ -9,20 +9,41 @@ This is a Hubble module (type: **connector + visualization**). Hubble is an Elec
 ## Structure
 
 ```
-hubble-home-assistant/
-├── manifest.json                         # Module metadata, properties, dependencies
+home-assistant/
+├── manifest.json                         # Module metadata, properties, visualizations
 ├── connector/
-│   └── index.ts                          # Server-side: data fetching, scheduling, emit
+│   └── index.ts                          # HA WebSocket connector (entity state, notifications)
 ├── visualizations/
-│   └── default/
-│       ├── index.tsx                     # React component rendered in widget container
-│       ├── style.css                     # Widget styles (use --hubble-* CSS variables)
-│       └── panels/
-│           └── configure.tsx             # (optional) config panel component
+│   ├── pill/                             # Compact entity state indicator
+│   │   ├── index.tsx
+│   │   ├── pill.css
+│   │   └── panels/ (configure, state-mapping, visibility)
+│   ├── list/                             # Grouped entity list display
+│   │   ├── index.tsx
+│   │   ├── list.css
+│   │   └── panels/ (configure, state-mapping, visibility)
+│   ├── notifications/                    # Persistent notification list
+│   │   ├── index.tsx
+│   │   ├── notifications.css
+│   │   └── panels/ (visibility)
+│   └── minimap/                          # SVG floor plan with entity overlays
+│       ├── index.tsx
+│       ├── minimap.css
+│       ├── components/ (floor-plan-renderer, entity-pin, room-zone, etc.)
+│       └── panels/ (editor, tool-panel, room-zone-config, etc.)
+├── shared/                               # Reusable components and utilities
+│   ├── types.ts                          # Core interfaces + condition evaluation
+│   ├── entity-picker.tsx                 # HA entity browser
+│   ├── icon-picker.tsx                   # MDI icon selector
+│   ├── visibility-builder.tsx            # Visibility condition builder
+│   ├── state-rule-builder.tsx            # State mapping rule builder
+│   ├── state-utils.ts                    # State evaluation helpers
+│   ├── mdi-utils.ts / mdi-categories.ts  # Material Design Icons utilities
+│   └── notification-parser.ts            # Markdown notification parser
 └── README.md
 ```
 
-**Connector modules** use only `connector/`. **Visualization modules** use only `visualizations/`. **Hybrid modules** use both.
+This is a **hybrid module** — it has both a connector and multiple visualizations.
 
 ---
 
@@ -41,7 +62,7 @@ npm run test:watch       # Run tests in watch mode
 
 ## Testing Strategy
 
-Tests live in `tests/`. Run `npm test` before every commit.
+Tests are co-located with source files. Run `npm test` before every commit.
 
 ### What to test
 
@@ -59,14 +80,21 @@ Tests live in `tests/`. Run `npm test` before every commit.
 
 **Hybrid modules** — apply both strategies above to the connector and each visualization independently.
 
-### Suggested test structure
+### Test structure
+
+Tests are co-located with source files:
 
 ```
-tests/
-├── setup.ts                    # @testing-library/jest-dom import (visualizations only)
-├── connector.test.ts           # Connector logic
-└── visualizations/
-    └── default.test.tsx        # Default visualization rendering
+connector/index.test.ts                        # Connector tests
+visualizations/pill/index.test.tsx             # Pill visualization tests
+visualizations/pill/panels/configure.test.tsx  # Config panel tests
+visualizations/list/index.test.tsx             # List visualization tests
+visualizations/notifications/index.test.tsx    # Notifications tests
+visualizations/minimap/index.test.tsx          # Minimap tests
+shared/types.test.ts                           # Shared types/utils tests
+shared/entity-picker.test.tsx                  # Entity picker tests
+...
+tests/setup.ts                                 # @testing-library/jest-dom setup
 ```
 
 ### Mocking the SDK

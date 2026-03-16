@@ -1,0 +1,40 @@
+.list-configure__entities {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.list-configure__entity-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--studio-text-primary, #e6edf3);
+}
+
+.list-configure__entity-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.list-configure__remove-btn {
+  background: none;
+  border: none;
+  color: var(--studio-danger, #f85149);
+  cursor: pointer;
+  padding: 2px 6px;
+  font-size: 14px;
+}
+
+.list-configure__actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 12px;
+}

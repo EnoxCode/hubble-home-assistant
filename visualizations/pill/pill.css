@@ -1,0 +1,121 @@
+/* HA Pill — spec: docs/superpowers/specs/2026-03-14-dashboard-home-assistant-module.md */
+
+.ha-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px 5px 8px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Icon — always white */
+.ha-pill-icon { font-size: 15px; color: rgba(255, 255, 255, 0.90); line-height: 1; flex-shrink: 0; display: flex; align-items: center; }
+
+/* Name and separator */
+.ha-pill-name { font-size: 10px; font-weight: 400; color: var(--dash-text-secondary); white-space: nowrap; }
+.ha-pill-sep  { font-size: 9px; color: var(--dash-text-muted); }
+
+/* Value — colored by state via --ha-state-color custom property */
+.ha-pill-value { font-size: 11px; font-weight: 500; white-space: nowrap; color: var(--ha-state-color, var(--dash-text-primary)); }
+
+/* Colored variant — tinted background using the same custom property */
+.ha-pill--colored { background: color-mix(in srgb, var(--ha-state-color, white) 22%, transparent); }
+
+/* Large size */
+.ha-pill--lg { padding: 8px 14px 8px 11px; gap: 8px; border-radius: 24px; }
+.ha-pill--lg .ha-pill-icon  { font-size: 22px; }
+.ha-pill--lg .ha-pill-name  { font-size: 12px; }
+.ha-pill--lg .ha-pill-sep   { font-size: 10px; }
+.ha-pill--lg .ha-pill-value { font-size: 15px; font-weight: 600; }
+
+/* State mapping panel */
+
+/* State mapping card layout */
+.sm-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 8px;
+  margin-bottom: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sm-card-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sm-card-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  flex: 1;
+}
+
+.sm-card-bottom {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sm-card-label {
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.3);
+  margin-bottom: 2px;
+}
+
+.sm-card-remove {
+  padding: 2px 4px;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  font-size: 14px;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+.sm-card-remove:hover {
+  color: var(--studio-danger, #f85149);
+}
+
+.sm-empty-text {
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  padding: 24px;
+  font-size: 14px;
+}
+
+.sm-add-btn-center {
+  text-align: center;
+}
+
+.sm-add-btn {
+  padding: 8px 16px;
+  font-size: 13px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: inherit;
+  cursor: pointer;
+}
+
+.sm-add-btn-small {
+  padding: 6px 14px;
+  font-size: 13px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  margin-top: 8px;
+}

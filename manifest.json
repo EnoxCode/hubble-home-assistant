@@ -1,24 +1,85 @@
 {
-  "name": "hubble-home-assistant",
-  "version": "0.1.0",
-  "description": "Several visuals for home assistant data",
-  "minAppVersion": "0.1.0",
-  "type": [
-    "connector",
-    "visualization"
+  "name": "home-assistant",
+  "version": "1.6.0",
+  "description": "Home Assistant integration with entity state pills, state lists, and persistent notifications",
+  "minAppVersion": "0.1.1",
+  "type": ["connector", "visualization"],
+  "properties": [
+    { "name": "ha_url", "type": "url", "required": true, "scope": "connector", "description": "Home Assistant URL" },
+    { "name": "ha_token", "type": "secret", "required": true, "scope": "connector", "description": "Long-lived access token" }
+  ],
+  "endpoints": [
+    { "name": "getEntities", "method": "GET", "path": "/entities", "description": "Fetch cached entity list grouped by domain" }
   ],
   "visualizations": [
     {
-      "name": "default",
-      "description": "HubbleHomeAssistant default visualization",
-      "path": "default",
+      "name": "Pill",
+      "description": "Compact entity state indicator (glass or colored variant)",
+      "path": "pill",
       "properties": [
-        {
-          "name": "title",
-          "type": "string",
-          "required": true,
-          "description": "Widget title displayed in the edit interface"
-        }
+        { "name": "title", "type": "string", "required": true, "description": "Widget title shown in the editor" }
+      ],
+      "configPanels": [
+        { "label": "Configure", "panel": "configure" },
+        { "label": "State Mapping", "panel": "state-mapping" },
+        { "label": "Configure Visibility", "panel": "visibility" }
+      ],
+      "mockData": {
+        "entity_id": "alarm_control_panel.home",
+        "state": "armed_away",
+        "attributes": { "friendly_name": "Home Alarm" }
+      }
+    },
+    {
+      "name": "List",
+      "description": "Grouped list of 4-8 entity states with dot or badge display",
+      "path": "list",
+      "properties": [
+        { "name": "title", "type": "string", "required": true, "description": "Widget title shown in the editor" }
+      ],
+      "configPanels": [
+        { "label": "Configure", "panel": "configure" },
+        { "label": "State Mapping", "panel": "state-mapping" },
+        { "label": "Configure Visibility", "panel": "visibility" }
+      ],
+      "mockData": {
+        "entity_id": "lock.front_door",
+        "state": "locked",
+        "attributes": { "friendly_name": "Front Door" }
+      }
+    },
+    {
+      "name": "Notifications",
+      "description": "Persistent notification list with severity cards",
+      "path": "notifications",
+      "properties": [
+        { "name": "title", "type": "string", "required": true, "description": "Widget title shown in the editor" },
+        { "name": "maxVisible", "type": "number", "required": false, "default": 5, "description": "Maximum notification cards shown", "min": 1, "max": 10, "step": 1 }
+      ],
+      "configPanels": [
+        { "label": "Configure Visibility", "panel": "visibility" }
+      ],
+      "mockData": {
+        "notifications": [
+          { "notification_id": "1", "title": "Alarm bypass active", "message": "Burglar alarm executed but bypass is on.", "created_at": "2026-03-14T08:45:00" },
+          { "notification_id": "2", "title": "Cleanup completed", "message": "Database maintenance finished successfully.", "created_at": "2026-03-13T07:30:00" }
+        ]
+      }
+    },
+    {
+      "name": "Minimap",
+      "description": "SVG floor plan with entity icon overlays and visual layers",
+      "path": "minimap",
+      "selectable": true,
+      "hardwareButtons": {
+        "button1": "expand"
+      },
+      "configPanels": [
+        { "label": "Floor Plan Editor", "panel": "editor", "fullCanvas": true }
+      ],
+      "properties": [
+        { "name": "title", "type": "string", "required": true, "description": "Widget title shown in the editor" },
+        { "name": "size", "type": "choice", "default": "lg", "choices": [{"label": "Medium", "value": "md"}, {"label": "Large", "value": "lg"}] }
       ]
     }
   ]

@@ -1,0 +1,244 @@
+.srb {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.srb-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  padding: 10px 10px 8px;
+  position: relative;
+}
+
+.srb-card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 6px;
+}
+
+.srb-card-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  flex: 1;
+}
+
+.srb-remove-btn {
+  color: rgba(255, 255, 255, 0.22);
+  font-size: 13px;
+  padding: 0 3px;
+  cursor: pointer;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  line-height: 1;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.srb-remove-btn:hover {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Binding / Entity selector row */
+.srb-binding-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.srb-binding-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+}
+
+.srb-binding-select {
+  background: rgba(96, 165, 250, 0.12);
+  border: 1px solid rgba(96, 165, 250, 0.25);
+  border-radius: 5px;
+  padding: 4px 8px;
+  font-size: 11px;
+  color: #93c5fd;
+  font-weight: 500;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Attribute toggle row */
+.srb-attr-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.srb-attr-toggle {
+  display: inline-flex;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.srb-attr-toggle-btn {
+  padding: 3px 9px;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.35);
+  border: none;
+}
+
+.srb-attr-toggle-btn--active {
+  background: #3b82f6;
+  color: white;
+}
+
+.srb-attr-input {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  padding: 4px 6px;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.85);
+  flex: 1;
+  min-width: 0;
+}
+
+/* Operator grid */
+.srb-operator-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-bottom: 6px;
+}
+
+.srb-op-btn {
+  padding: 3px 8px;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  min-width: 28px;
+  text-align: center;
+}
+
+.srb-op-btn--active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+/* Value row */
+.srb-value-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.srb-value-input {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  padding: 4px 6px;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.85);
+  flex: 1;
+  min-width: 0;
+}
+
+.srb-between-label {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.35);
+  flex-shrink: 0;
+}
+
+/* Result section */
+.srb-result-section {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: 6px;
+  padding-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.srb-result-title {
+  font-size: 8px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.25);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.srb-result-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.srb-result-label {
+  font-size: 9px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.4);
+  flex-shrink: 0;
+  width: 36px;
+}
+
+.srb-label-input {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  padding: 4px 6px;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.85);
+  flex: 1;
+  min-width: 0;
+}
+
+/* Entity select (select mode) */
+.srb-entity-select {
+  background: rgba(96, 165, 250, 0.12);
+  border: 1px solid rgba(96, 165, 250, 0.25);
+  border-radius: 5px;
+  padding: 4px 8px;
+  font-size: 11px;
+  color: #93c5fd;
+  font-weight: 500;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Add button */
+.srb-add-btn {
+  background: none;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  padding: 6px 0;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.35);
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+}
+
+.srb-add-btn:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.5);
+}

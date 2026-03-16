@@ -18,3 +18,5 @@ dist/
 # Auto-generated AI context (regenerate with: create-hubble-module sync-docs)
 EXAMPLES.md
 hubble-sdk.d.ts
+hubble-ui.d.ts
+hubble-dash-ui.d.ts

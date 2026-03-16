@@ -1,0 +1,75 @@
+/* Map container */
+.ha-map-wrap { position: relative; background: rgba(0,0,0,0.30); border-radius: 7px; overflow: hidden; }
+.ha-map-svg { display: block; }
+.ha-map-svg svg { display: block; width: 100%; height: auto; }
+
+/* Entity pins */
+.ha-map-pin { position: absolute; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 2px; pointer-events: none; }
+.ha-map-mdi { line-height: 1; color: var(--ha-pin-color); text-shadow: 0 1px 4px rgba(0,0,0,0.9); }
+.ha-map-pin-label { font-weight: 500; color: rgba(255,255,255,0.5); text-shadow: 0 1px 3px rgba(0,0,0,0.9); white-space: nowrap; }
+.ha-map-pin--critical .ha-map-mdi { filter: drop-shadow(0 0 5px rgba(248,113,113,0.8)); }
+
+/* Text labels */
+.ha-map-text { position: absolute; transform: translate(-50%, -50%); pointer-events: none; font-weight: 500; text-shadow: 0 1px 3px rgba(0,0,0,0.9); }
+.ha-map-text--sm { font-size: 8px; }
+.ha-map-text--md { font-size: 10px; }
+.ha-map-text--lg { font-size: 12px; }
+
+/* Polygons */
+.ha-map-polygon { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+
+/* Room zones */
+.ha-map-zone { position: absolute; pointer-events: none; }
+.ha-map-zone--bordered { border: 1px dashed rgba(255,255,255,0.12); border-radius: 4px; }
+.ha-map-zone-name { position: absolute; top: 2px; left: 4px; font-size: 6px; color: rgba(255,255,255,0.20); font-weight: 500; white-space: nowrap; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
+.ha-map-zone-meta { position: absolute; bottom: 2px; left: 4px; font-size: 6px; color: rgba(255,255,255,0.30); white-space: nowrap; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
+.ha-minimap--lg .ha-map-zone-name { font-size: 7px; }
+.ha-minimap--lg .ha-map-zone-meta { font-size: 7px; }
+.ha-minimap--expanded .ha-map-zone-name { font-size: 9px; }
+.ha-minimap--expanded .ha-map-zone-meta { font-size: 9px; color: rgba(255,255,255,0.40); }
+
+/* Presence rings */
+.ha-map-presence { position: absolute; inset: 0; pointer-events: none; display: flex; align-items: center; justify-content: center; }
+.ha-map-presence-ring { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60%; height: 60%; border-radius: 50%; border: 1.5px solid rgba(96,165,250,0.5); pointer-events: none; }
+.ha-map-presence-ring--inner { width: 40%; height: 40%; }
+.ha-map-presence--dashed .ha-map-presence-ring { border-style: dashed; }
+@keyframes pulse-ring { 0% { transform: translate(-50%,-50%) scale(0.8); opacity: 0.6; } 50% { transform: translate(-50%,-50%) scale(1.2); opacity: 0.15; } 100% { transform: translate(-50%,-50%) scale(0.8); opacity: 0.6; } }
+.ha-map-presence--animated .ha-map-presence-ring { animation: pulse-ring 3s ease-in-out infinite; }
+.ha-map-presence--animated .ha-map-presence-ring--inner { animation-duration: 2.2s; }
+
+/* Light ambiance */
+.ha-map-ambiance {
+  position: absolute; inset: 0;
+  border-radius: inherit; pointer-events: none;
+  background: radial-gradient(ellipse at center, var(--ha-glow-color, rgba(255,183,77,0.3)) 0%, transparent 70%);
+  opacity: var(--ha-glow-opacity, 0.5);
+}
+@keyframes glow-breathe { 0% { transform: scale(0.95); opacity: calc(var(--ha-glow-opacity, 0.5) * 0.7); } 50% { transform: scale(1.05); opacity: var(--ha-glow-opacity, 0.5); } 100% { transform: scale(0.95); opacity: calc(var(--ha-glow-opacity, 0.5) * 0.7); } }
+.ha-map-ambiance--animated { animation: glow-breathe var(--ha-glow-duration, 6s) ease-in-out infinite; }
+
+/* Security border */
+.ha-map-security { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 3px; pointer-events: none; }
+.ha-map-security--armed { border: 1.5px solid rgba(74,222,128,0.3); }
+.ha-map-security--triggered { border: 2px solid rgba(248,113,113,0.7); background: rgba(248,113,113,0.08); }
+@keyframes security-flash { 0% { opacity: 0.5; } 50% { opacity: 0.9; } 100% { opacity: 0.5; } }
+.ha-map-security--triggered.ha-map-security--animated { animation: security-flash 1.2s ease-in-out infinite; }
+.ha-map-security--pending { border: 1.5px dashed rgba(251,191,36,0.4); }
+
+/* Activity trail */
+.ha-map-trail { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+.ha-map-trail-dot { position: absolute; transform: translate(-50%,-50%); border-radius: 50%; background: rgba(168,85,247,0.6); }
+.ha-map-trail-label { position: absolute; font-size: 5px; color: rgba(168,85,247,0.7); }
+
+/* Carousel dots */
+.ha-map-dots { display: flex; justify-content: center; gap: 5px; padding: 8px 0 2px; }
+.ha-map-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.20); cursor: pointer; }
+.ha-map-dot--active { width: 14px; height: 5px; border-radius: 3px; background: rgba(255,255,255,0.55); }
+
+/* Size variants */
+.ha-minimap--md .ha-map-mdi { font-size: 16px; }
+.ha-minimap--md .ha-map-pin-label { font-size: 5.5px; }
+.ha-minimap--lg .ha-map-mdi { font-size: 20px; }
+.ha-minimap--lg .ha-map-pin-label { font-size: 6.5px; }
+
+/* Expanded view */
+.ha-minimap--expanded .ha-map-pin-label { font-size: 8px; }

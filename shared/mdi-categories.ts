@@ -1,0 +1,58 @@
+export const MDI_CATEGORIES: Record<string, string[]> = {
+  Home: [
+    'home', 'home-outline', 'sofa', 'bed', 'bathtub', 'door-open', 'door-closed',
+    'window-open', 'window-closed', 'garage', 'garage-open', 'stairs', 'fence', 'gate',
+    'table-furniture', 'floor-lamp', 'ceiling-light', 'fireplace', 'hot-tub', 'pool',
+    'shower', 'toilet', 'silverware-fork-knife', 'television', 'desk-lamp', 'bookshelf',
+    'wardrobe',
+  ],
+  Weather: [
+    'weather-sunny', 'weather-cloudy', 'weather-partly-cloudy', 'weather-rainy',
+    'weather-pouring', 'weather-snowy', 'weather-snowy-rainy', 'weather-windy',
+    'weather-fog', 'weather-lightning', 'weather-lightning-rainy', 'weather-night',
+    'weather-night-partly-cloudy', 'weather-tornado', 'weather-hurricane', 'thermometer',
+    'thermometer-high', 'thermometer-low', 'water-percent', 'umbrella', 'snowflake',
+    'weather-hail', 'weather-dust', 'weather-hazy',
+  ],
+  Devices: [
+    'lightbulb', 'lightbulb-off', 'lightbulb-outline', 'fan', 'fan-off', 'air-conditioner',
+    'radiator', 'radiator-off', 'television', 'television-off', 'washing-machine',
+    'dishwasher', 'microwave', 'stove', 'coffee-maker', 'robot-vacuum', 'printer',
+    'router-wireless', 'speaker', 'speaker-off', 'headphones', 'laptop', 'tablet',
+    'phone', 'vacuum', 'kettle', 'toaster-oven',
+  ],
+  Sensors: [
+    'motion-sensor', 'motion-sensor-off', 'smoke-detector', 'smoke-detector-off',
+    'water-boiler', 'leak', 'security', 'alarm-panel', 'alarm-light', 'eye', 'eye-off',
+    'battery', 'battery-charging', 'battery-low', 'battery-high', 'signal', 'wifi',
+    'wifi-off', 'bluetooth', 'zigbee', 'lock', 'lock-open', 'lock-outline', 'door-open',
+    'door-closed', 'window-open', 'window-closed', 'water', 'gas-cylinder',
+  ],
+  Media: [
+    'play', 'play-circle', 'pause', 'pause-circle', 'stop', 'stop-circle', 'skip-next',
+    'skip-previous', 'shuffle', 'repeat', 'repeat-once', 'volume-high', 'volume-medium',
+    'volume-low', 'volume-off', 'volume-mute', 'music', 'music-note', 'headphones',
+    'microphone', 'microphone-off', 'radio', 'cast', 'cast-off', 'spotify', 'youtube',
+    'netflix', 'plex',
+  ],
+  Status: [
+    'check', 'check-circle', 'check-circle-outline', 'close', 'close-circle', 'alert',
+    'alert-circle', 'alert-circle-outline', 'alert-outline', 'information',
+    'information-outline', 'help-circle', 'help-circle-outline', 'star', 'star-outline',
+    'heart', 'heart-outline', 'bookmark', 'bookmark-outline', 'power', 'power-off',
+    'sleep', 'bell', 'bell-off', 'bell-outline', 'clock', 'timer', 'timer-off',
+    'calendar', 'calendar-check',
+  ],
+  Transport: [
+    'car', 'car-electric', 'car-off', 'car-connected', 'bus', 'train', 'airplane',
+    'airplane-off', 'airplane-landing', 'airplane-takeoff', 'bike', 'walk', 'run',
+    'truck', 'taxi', 'ferry', 'ev-station', 'gas-station', 'parking', 'garage',
+    'garage-open',
+  ],
+  People: [
+    'account', 'account-outline', 'account-group', 'account-group-outline', 'account-child',
+    'account-child-outline', 'baby', 'baby-face', 'human', 'human-female', 'human-male',
+    'human-female-girl', 'human-male-boy', 'dog', 'cat', 'paw', 'bird', 'fish',
+    'emoticon', 'emoticon-happy', 'emoticon-sad', 'emoticon-neutral',
+  ],
+};

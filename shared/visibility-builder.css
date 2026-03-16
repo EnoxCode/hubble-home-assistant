@@ -1,0 +1,170 @@
+.vb {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.vb-outer-join {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.vb-outer-line {
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.vb-outer-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.vb-group {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  padding: 10px 10px 8px;
+  margin-bottom: 6px;
+}
+
+.vb-group-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 9px;
+  gap: 6px;
+}
+
+.vb-group-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  flex: 1;
+}
+
+.vb-segment {
+  display: inline-flex;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.vb-segment-btn {
+  padding: 3px 9px;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.35);
+  border: none;
+}
+
+.vb-segment-btn--active {
+  background: #3b82f6;
+  color: white;
+}
+
+.vb-group-remove {
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0 3px;
+  background: none;
+  border: none;
+  line-height: 1;
+}
+
+.vb-condition-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.vb-entity-chip {
+  background: rgba(96, 165, 250, 0.12);
+  border: 1px solid rgba(96, 165, 250, 0.25);
+  border-radius: 5px;
+  padding: 4px 8px;
+  font-size: 11px;
+  color: #93c5fd;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 110px;
+  flex-shrink: 0;
+}
+
+.vb-entity-chip--empty {
+  background: rgba(255, 255, 255, 0.05);
+  border-style: dashed;
+  border-color: rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.vb-operator-select {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  padding: 4px 4px;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  flex: 0 0 64px;
+}
+
+.vb-value-input {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  padding: 4px 6px;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.85);
+  flex: 1;
+  min-width: 0;
+}
+
+.vb-remove-btn {
+  color: rgba(255, 255, 255, 0.22);
+  font-size: 13px;
+  padding: 0 2px;
+  cursor: pointer;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  line-height: 1;
+}
+
+.vb-add-cond-btn {
+  background: none;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 5px;
+  padding: 4px 0;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.35);
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 3px;
+}
+
+.vb-add-group-btn {
+  background: none;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  padding: 6px 0;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.35);
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+}
