@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, act } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import React from 'react';
 
 /* ── entity data type ── */
@@ -20,8 +20,6 @@ vi.mock('hubble-sdk', () => ({
   useConnectorData: () => mockConnectorData,
   useHubbleSDK: () => ({ requestLatestData: mockRequestLatestData }),
 }));
-
-vi.mock('hubble-dash-ui');
 
 vi.mock('../../shared/mdi-utils', () => ({
   getMdiPath: (n: string) => (n ? `path-for-${n}` : ''),
@@ -45,11 +43,18 @@ function makeEntity(
 
 function setupEntityStates(entityMap: Record<string, StateChangePayload>) {
   mockRequestLatestData.mockImplementation((_mod: string, topic: string) => {
-    // topic = 'home-assistant:state_changed:<entity_id>'
     const eid = topic.replace('home-assistant:state_changed:', '');
     const data = entityMap[eid] ?? null;
     return Promise.resolve(data);
   });
+}
+
+async function renderAndFlush(ui: React.ReactElement) {
+  let result: ReturnType<typeof render>;
+  await act(async () => {
+    result = render(ui);
+  });
+  return result!;
 }
 
 const baseConfig = {
@@ -105,12 +110,7 @@ describe('ApplianceWidget', () => {
   });
 
   it('renders metric strip with 3 cells when running', async () => {
-    await act(async () => {
-      render(<ApplianceWidget />);
-    });
-    const { container } = render(<ApplianceWidget />);
-    // Flush requestLatestData promises
-    await act(async () => {});
+    const { container } = await renderAndFlush(<ApplianceWidget />);
 
     const cells = container.querySelectorAll('.ha-appliance-cell');
     expect(cells).toHaveLength(3);
@@ -125,8 +125,7 @@ describe('ApplianceWidget', () => {
       metricCells: [{ label: 'Temp', entityId: 'sensor.oven_temp' }],
     };
 
-    const { container } = render(<ApplianceWidget />);
-    await act(async () => {});
+    const { container } = await renderAndFlush(<ApplianceWidget />);
 
     const cells = container.querySelectorAll('.ha-appliance-cell');
     expect(cells).toHaveLength(1);
@@ -139,16 +138,13 @@ describe('ApplianceWidget', () => {
     };
     setupEntityStates(offEntities);
 
-    const { container } = render(<ApplianceWidget />);
-    await act(async () => {});
+    const { container } = await renderAndFlush(<ApplianceWidget />);
 
-    // Strip should not be rendered when off
     expect(container.querySelector('.ha-appliance-strip')).toBeNull();
   });
 
   it('shows progress bar when progressSource is configured', async () => {
-    const { container } = render(<ApplianceWidget />);
-    await act(async () => {});
+    const { container } = await renderAndFlush(<ApplianceWidget />);
 
     const fill = container.querySelector('.ha-appliance-progress-fill') as HTMLElement;
     expect(fill).toBeTruthy();
@@ -158,8 +154,7 @@ describe('ApplianceWidget', () => {
   it('hides progress bar when progressSource is none', async () => {
     mockConfig = { ...baseConfig, progressSource: 'none' };
 
-    const { container } = render(<ApplianceWidget />);
-    await act(async () => {});
+    const { container } = await renderAndFlush(<ApplianceWidget />);
 
     expect(container.querySelector('.ha-appliance-progress')).toBeNull();
   });
@@ -171,8 +166,7 @@ describe('ApplianceWidget', () => {
     };
     setupEntityStates(doorOpen);
 
-    const { container } = render(<ApplianceWidget />);
-    await act(async () => {});
+    const { container } = await renderAndFlush(<ApplianceWidget />);
 
     const warning = container.querySelector('.ha-appliance-warning');
     expect(warning).toBeTruthy();
@@ -180,16 +174,13 @@ describe('ApplianceWidget', () => {
   });
 
   it('hides warning when visibility condition is not met', async () => {
-    // binary_sensor.oven_door is 'off' in allEntities → condition not met
-    const { container } = render(<ApplianceWidget />);
-    await act(async () => {});
+    const { container } = await renderAndFlush(<ApplianceWidget />);
 
     expect(container.querySelector('.ha-appliance-warning')).toBeNull();
   });
 
   it('renders secondary details', async () => {
-    const { container } = render(<ApplianceWidget />);
-    await act(async () => {});
+    const { container } = await renderAndFlush(<ApplianceWidget />);
 
     const secondary = container.querySelector('.ha-appliance-secondary');
     expect(secondary).toBeTruthy();
@@ -197,8 +188,7 @@ describe('ApplianceWidget', () => {
   });
 
   it('sets statusBorder prop to positive for running state', async () => {
-    const { container } = render(<ApplianceWidget />);
-    await act(async () => {});
+    const { container } = await renderAndFlush(<ApplianceWidget />);
 
     const widget = container.querySelector('[data-status-border]');
     expect(widget?.getAttribute('data-status-border')).toBe('positive');
@@ -211,8 +201,7 @@ describe('ApplianceWidget', () => {
     };
     setupEntityStates(offEntities);
 
-    const { container } = render(<ApplianceWidget />);
-    await act(async () => {});
+    const { container } = await renderAndFlush(<ApplianceWidget />);
 
     const widget = container.querySelector('[data-status-border]');
     expect(widget?.getAttribute('data-status-border')).toBe('neutral');
@@ -221,8 +210,7 @@ describe('ApplianceWidget', () => {
   it('renders no strip when metricCells is empty', async () => {
     mockConfig = { ...baseConfig, metricCells: [] };
 
-    const { container } = render(<ApplianceWidget />);
-    await act(async () => {});
+    const { container } = await renderAndFlush(<ApplianceWidget />);
 
     expect(container.querySelector('.ha-appliance-strip')).toBeNull();
   });
@@ -248,8 +236,7 @@ describe('ApplianceWidget', () => {
     }
     setupEntityStates(warnEntities);
 
-    const { container } = render(<ApplianceWidget />);
-    await act(async () => {});
+    const { container } = await renderAndFlush(<ApplianceWidget />);
 
     const warnings = container.querySelectorAll('.ha-appliance-warning');
     expect(warnings).toHaveLength(3);
