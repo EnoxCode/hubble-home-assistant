@@ -1,0 +1,90 @@
+/* ─── Metric Strip ───────────────────────── */
+.ha-appliance-strip {
+  display: flex;
+  gap: 1px;
+  margin-bottom: var(--dash-gap);
+}
+
+.ha-appliance-cell {
+  flex: 1;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.ha-appliance-cell:first-child {
+  border-radius: 6px 0 0 6px;
+}
+
+.ha-appliance-cell:last-child {
+  border-radius: 0 6px 6px 0;
+}
+
+.ha-appliance-cell:only-child {
+  border-radius: 6px;
+}
+
+.ha-appliance-cell-label {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--dash-text-muted);
+  margin-bottom: 2px;
+}
+
+/* ─── Progress Bar ───────────────────────── */
+.ha-appliance-progress {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: var(--dash-gap-sm);
+}
+
+.ha-appliance-progress-fill {
+  height: 100%;
+  background: var(--dash-accent);
+  border-radius: 2px;
+  transition: width 1s linear;
+}
+
+/* ─── Warning Banner ─────────────────────── */
+.ha-appliance-warning {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  border-radius: 5px;
+  margin-top: var(--dash-gap);
+}
+
+.ha-appliance-warning--warning {
+  background: rgba(251, 191, 36, 0.12);
+}
+
+.ha-appliance-warning--critical {
+  background: rgba(248, 113, 113, 0.15);
+}
+
+/* ─── Warning Text ────────────────────────── */
+.ha-appliance-warning-text--warning {
+  color: var(--dash-state-warning);
+}
+
+.ha-appliance-warning-text--critical {
+  color: var(--dash-state-critical);
+}
+
+/* ─── Icon ────────────────────────────────── */
+.ha-appliance-icon {
+  margin-right: 8px;
+}
+
+.ha-appliance-icon--off {
+  fill: var(--dash-text-muted);
+}
+
+/* ─── Secondary Meta ─────────────────────── */
+.ha-appliance-secondary {
+  color: var(--dash-text-muted);
+}
