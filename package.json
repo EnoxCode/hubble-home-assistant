@@ -1,6 +1,6 @@
 {
   "name": "hubble-module-home-assistant",
-  "version": "1.6.1",
+  "version": "1.7.0",
   "description": "Home Assistant integration with entity state pills, state lists, and persistent notifications",
   "private": true,
   "keywords": [
