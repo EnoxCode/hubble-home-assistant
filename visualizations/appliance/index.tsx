@@ -149,7 +149,7 @@ export default function ApplianceWidget() {
           {/* Icon */}
           {iconPath && (
             <svg className="ha-appliance-icon" width="24" height="24" viewBox="0 0 24 24">
-              <path d={iconPath} fill="currentColor" />
+              <path d={iconPath} fill={statusResolved?.color ?? 'currentColor'} />
             </svg>
           )}
 
@@ -165,7 +165,7 @@ export default function ApplianceWidget() {
                     <div className="ha-appliance-cell-label">{cell.label.toUpperCase()}</div>
                     <div className="t-glance-sm">
                       {value}
-                      {unit && unit}
+                      {unit}
                     </div>
                   </div>
                 );

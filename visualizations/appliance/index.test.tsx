@@ -215,6 +215,65 @@ describe('ApplianceWidget', () => {
     expect(container.querySelector('.ha-appliance-strip')).toBeNull();
   });
 
+  it('sets icon fill to resolved status color when running', async () => {
+    const { container } = await renderAndFlush(<ApplianceWidget />);
+
+    // Running state resolves to #4ade80; the icon path fill should reflect that
+    const iconPath = container.querySelector('.ha-appliance-icon path');
+    expect(iconPath?.getAttribute('fill')).toBe('#4ade80');
+  });
+
+  it('uses ha-appliance-icon--off class on icon when off', async () => {
+    const offEntities = {
+      ...allEntities,
+      'sensor.oven_status': makeEntity('sensor.oven_status', 'Off'),
+    };
+    setupEntityStates(offEntities);
+
+    const { container } = await renderAndFlush(<ApplianceWidget />);
+
+    const icon = container.querySelector('.ha-appliance-icon');
+    expect(icon?.classList.contains('ha-appliance-icon--off')).toBe(true);
+  });
+
+  it('appends unit_of_measurement to metric cell value', async () => {
+    mockConfig = {
+      ...baseConfig,
+      metricCells: [{ label: 'Nozzle', entityId: 'sensor.nozzle_temp' }],
+    };
+    setupEntityStates({
+      ...allEntities,
+      'sensor.nozzle_temp': makeEntity('sensor.nozzle_temp', '200', { unit_of_measurement: '°C' }),
+    });
+
+    const { container } = await renderAndFlush(<ApplianceWidget />);
+
+    const cell = container.querySelector('.ha-appliance-cell');
+    expect(cell?.textContent).toContain('200');
+    expect(cell?.textContent).toContain('°C');
+  });
+
+  it('returns null when widget-level visibilityConditions are not met', async () => {
+    mockConfig = {
+      ...baseConfig,
+      visibilityConditions: {
+        operator: 'AND' as const,
+        conditions: [
+          { entity_id: 'sensor.oven_status', operator: 'equals' as const, value: 'In use' },
+        ],
+      },
+    };
+    // Status entity is 'Off' — condition requires 'In use', so widget should not render
+    setupEntityStates({
+      ...allEntities,
+      'sensor.oven_status': makeEntity('sensor.oven_status', 'Off'),
+    });
+
+    const { container } = await renderAndFlush(<ApplianceWidget />);
+
+    expect(container.querySelector('[data-testid="DashWidget"]')).toBeNull();
+  });
+
   it('caps warnings at 3 and shows overflow text', async () => {
     const manyWarnings = Array.from({ length: 5 }, (_, i) => ({
       entityId: `binary_sensor.warn_${i}`,
