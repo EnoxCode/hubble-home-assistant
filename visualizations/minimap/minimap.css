@@ -30,7 +30,7 @@
 
 /* Presence rings */
 .ha-map-presence { position: absolute; inset: 0; pointer-events: none; display: flex; align-items: center; justify-content: center; }
-.ha-map-presence-ring { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60%; height: 60%; border-radius: 50%; border: 1.5px solid rgba(96,165,250,0.5); pointer-events: none; }
+.ha-map-presence-ring { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60%; height: 60%; border-radius: 50%; border: 5.5px solid rgba(233, 204, 16, 0.776); pointer-events: none; }
 .ha-map-presence-ring--inner { width: 40%; height: 40%; }
 .ha-map-presence--dashed .ha-map-presence-ring { border-style: dashed; }
 @keyframes pulse-ring { 0% { transform: translate(-50%,-50%) scale(0.8); opacity: 0.6; } 50% { transform: translate(-50%,-50%) scale(1.2); opacity: 0.15; } 100% { transform: translate(-50%,-50%) scale(0.8); opacity: 0.6; } }
