@@ -11,7 +11,11 @@ const mockComponent = (name: string, renderFn?: (props: Record<string, unknown>)
 };
 
 export const DashWidget = mockComponent('DashWidget', (props) =>
-  React.createElement('div', { 'data-testid': 'DashWidget', className: props.className }, props.children));
+  React.createElement('div', {
+    'data-testid': 'DashWidget',
+    className: props.className,
+    'data-status-border': props.statusBorder,
+  }, props.children));
 
 export const DashWidgetHeader = mockComponent('DashWidgetHeader', (props) =>
   React.createElement('div', { 'data-testid': 'DashWidgetHeader' },
