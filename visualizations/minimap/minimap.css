@@ -1,5 +1,5 @@
 /* Map container */
-.ha-map-wrap { position: relative; background: rgba(0,0,0,0.30); border-radius: 7px; overflow: hidden; }
+.ha-map-wrap { position: relative; border-radius: 7px; overflow: hidden; }
 .ha-map-svg { display: block; }
 .ha-map-svg svg { display: block; width: 100%; height: auto; }
 
