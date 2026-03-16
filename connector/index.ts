@@ -149,8 +149,14 @@ export default function homeAssistantConnector(sdk: ServerSdk) {
           }
         }
       }
-      if (typeof wc.progressSource === 'string' && wc.progressSource !== 'none') {
+      if (typeof wc.progressSource === 'string' && wc.progressSource !== 'none' && wc.progressSource !== 'calculated') {
         watched.add(wc.progressSource);
+      }
+      if (typeof wc.progressElapsedEntity === 'string' && wc.progressElapsedEntity) {
+        watched.add(wc.progressElapsedEntity);
+      }
+      if (typeof wc.progressRemainingEntity === 'string' && wc.progressRemainingEntity) {
+        watched.add(wc.progressRemainingEntity);
       }
       if (Array.isArray(wc.secondaryEntities)) {
         for (const se of wc.secondaryEntities as Array<Record<string, unknown>>) {

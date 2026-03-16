@@ -24,6 +24,8 @@ export default function ConfigurePanel({ config, onConfigChange, moduleId }: Con
     | { kind: 'status' }
     | { kind: 'metric'; index: number }
     | { kind: 'progress' }
+    | { kind: 'progressElapsed' }
+    | { kind: 'progressRemaining' }
     | { kind: 'secondary'; index: number }
     | { kind: 'warning'; index: number }
     | null
@@ -188,33 +190,45 @@ export default function ConfigurePanel({ config, onConfigChange, moduleId }: Con
       <Field label={`Metric Cells (max ${MAX_METRIC_CELLS})`}>
         <div className="cell-list">
           {metricCells.map((cell, i) => (
-            <div key={i} className="cell-row">
-              <div className="cell-label-input">
-                <Input
-                  type="text"
-                  value={cell.label}
-                  onChange={(v) => updateMetricCell(i, { label: v || '' })}
-                  placeholder="Label"
-                />
+            <div key={i} className="cell-row cell-row--multi">
+              <div className="cell-row-main">
+                <div className="cell-label-input">
+                  <Input
+                    type="text"
+                    value={cell.label}
+                    onChange={(v) => updateMetricCell(i, { label: v || '' })}
+                    placeholder="Label"
+                  />
+                </div>
+                <button className="entity-select-btn" onClick={() => setOpenPicker({ kind: 'metric', index: i })}>
+                  {cell.entityId ? (
+                    <>
+                      {entityLabel(cell.entityId).domain && (
+                        <span className="entity-domain">{entityLabel(cell.entityId).domain}</span>
+                      )}
+                      <span className="entity-name">{entityLabel(cell.entityId).name}</span>
+                    </>
+                  ) : (
+                    <span className="entity-placeholder">Pick an entity...</span>
+                  )}
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="entity-chevron">
+                    <path d="M2 5l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+                <button className="remove-btn" onClick={() => removeMetricCell(i)} title="Remove cell">
+                  ×
+                </button>
               </div>
-              <button className="entity-select-btn" onClick={() => setOpenPicker({ kind: 'metric', index: i })}>
-                {cell.entityId ? (
-                  <>
-                    {entityLabel(cell.entityId).domain && (
-                      <span className="entity-domain">{entityLabel(cell.entityId).domain}</span>
-                    )}
-                    <span className="entity-name">{entityLabel(cell.entityId).name}</span>
-                  </>
-                ) : (
-                  <span className="entity-placeholder">Pick an entity...</span>
-                )}
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="entity-chevron">
-                  <path d="M2 5l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-              <button className="remove-btn" onClick={() => removeMetricCell(i)} title="Remove cell">
-                ×
-              </button>
+              <div className="cell-row-options">
+                <label className="format-toggle">
+                  <input
+                    type="checkbox"
+                    checked={cell.formatState === 'titlecase'}
+                    onChange={(e) => updateMetricCell(i, { formatState: e.target.checked ? 'titlecase' : 'raw' })}
+                  />
+                  <span className="format-toggle-label">Title Case</span>
+                </label>
+              </div>
             </div>
           ))}
         </div>
@@ -228,35 +242,86 @@ export default function ConfigurePanel({ config, onConfigChange, moduleId }: Con
       <div className="section-divider" />
 
       {/* Progress source */}
-      <Field label="Progress Source" hint="Entity providing a 0–100 numeric value, or 'none'">
+      <Field label="Progress Bar">
         <Select
-          value={config.progressSource || 'none'}
-          onChange={(v) => onConfigChange({ ...config, progressSource: v })}
+          value={
+            config.progressSource === 'none' || !config.progressSource
+              ? 'none'
+              : config.progressSource === 'calculated'
+                ? 'calculated'
+                : 'entity'
+          }
+          onChange={(v) => {
+            if (v === 'none') {
+              onConfigChange({ ...config, progressSource: 'none', progressElapsedEntity: undefined, progressRemainingEntity: undefined });
+            } else if (v === 'calculated') {
+              onConfigChange({ ...config, progressSource: 'calculated' });
+            } else {
+              onConfigChange({ ...config, progressSource: config.progressSource === 'calculated' ? 'none' : config.progressSource });
+            }
+          }}
           options={[
             { label: 'None', value: 'none' },
-            ...(config.progressSource && config.progressSource !== 'none'
-              ? [{ label: entityLabel(config.progressSource).name ?? config.progressSource, value: config.progressSource }]
-              : []),
+            { label: 'Entity (0–100%)', value: 'entity' },
+            { label: 'Calculated (elapsed + remaining)', value: 'calculated' },
           ]}
         />
-        <button
-          className="entity-select-btn entity-select-btn--spaced"
-          onClick={() => setOpenPicker({ kind: 'progress' })}
-        >
-          {config.progressSource && config.progressSource !== 'none' ? (
-            <>
-              {entityLabel(config.progressSource).domain && (
-                <span className="entity-domain">{entityLabel(config.progressSource).domain}</span>
-              )}
-              <span className="entity-name">{entityLabel(config.progressSource).name}</span>
-            </>
-          ) : (
-            <span className="entity-placeholder">Pick a progress entity...</span>
-          )}
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="entity-chevron">
-            <path d="M2 5l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
+
+        {/* Entity mode: pick a 0-100 entity */}
+        {config.progressSource && config.progressSource !== 'none' && config.progressSource !== 'calculated' && (
+          <button
+            className="entity-select-btn entity-select-btn--spaced"
+            onClick={() => setOpenPicker({ kind: 'progress' })}
+          >
+            {entityLabel(config.progressSource).domain && (
+              <span className="entity-domain">{entityLabel(config.progressSource).domain}</span>
+            )}
+            <span className="entity-name">{entityLabel(config.progressSource).name}</span>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="entity-chevron">
+              <path d="M2 5l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        )}
+
+        {/* Calculated mode: pick elapsed + remaining entities */}
+        {config.progressSource === 'calculated' && (
+          <div className="progress-calc-fields">
+            <Field label="Elapsed Time Entity" hint="Value in minutes">
+              <button className="entity-select-btn" onClick={() => setOpenPicker({ kind: 'progressElapsed' })}>
+                {config.progressElapsedEntity ? (
+                  <>
+                    {entityLabel(config.progressElapsedEntity).domain && (
+                      <span className="entity-domain">{entityLabel(config.progressElapsedEntity).domain}</span>
+                    )}
+                    <span className="entity-name">{entityLabel(config.progressElapsedEntity).name}</span>
+                  </>
+                ) : (
+                  <span className="entity-placeholder">Pick elapsed time entity...</span>
+                )}
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="entity-chevron">
+                  <path d="M2 5l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </Field>
+            <Field label="Remaining Time Entity" hint="Value in minutes">
+              <button className="entity-select-btn" onClick={() => setOpenPicker({ kind: 'progressRemaining' })}>
+                {config.progressRemainingEntity ? (
+                  <>
+                    {entityLabel(config.progressRemainingEntity).domain && (
+                      <span className="entity-domain">{entityLabel(config.progressRemainingEntity).domain}</span>
+                    )}
+                    <span className="entity-name">{entityLabel(config.progressRemainingEntity).name}</span>
+                  </>
+                ) : (
+                  <span className="entity-placeholder">Pick remaining time entity...</span>
+                )}
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="entity-chevron">
+                  <path d="M2 5l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </Field>
+          </div>
+        )}
       </Field>
 
       <div className="section-divider" />
@@ -388,8 +453,24 @@ export default function ConfigurePanel({ config, onConfigChange, moduleId }: Con
       {openPicker?.kind === 'progress' && (
         <EntityPicker
           moduleId={moduleId}
-          selectedEntityId={config.progressSource !== 'none' ? (config.progressSource || '') : ''}
+          selectedEntityId={config.progressSource !== 'none' && config.progressSource !== 'calculated' ? (config.progressSource || '') : ''}
           onSelect={(id) => { onConfigChange({ ...config, progressSource: id }); setOpenPicker(null); }}
+          onClose={() => setOpenPicker(null)}
+        />
+      )}
+      {openPicker?.kind === 'progressElapsed' && (
+        <EntityPicker
+          moduleId={moduleId}
+          selectedEntityId={config.progressElapsedEntity || ''}
+          onSelect={(id) => { onConfigChange({ ...config, progressElapsedEntity: id }); setOpenPicker(null); }}
+          onClose={() => setOpenPicker(null)}
+        />
+      )}
+      {openPicker?.kind === 'progressRemaining' && (
+        <EntityPicker
+          moduleId={moduleId}
+          selectedEntityId={config.progressRemainingEntity || ''}
+          onSelect={(id) => { onConfigChange({ ...config, progressRemainingEntity: id }); setOpenPicker(null); }}
           onClose={() => setOpenPicker(null)}
         />
       )}

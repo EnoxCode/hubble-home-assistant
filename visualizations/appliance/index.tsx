@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useConnectorData, useWidgetConfig, useHubbleSDK } from 'hubble-sdk';
-import { DashWidget, DashWidgetHeader, DashWidgetFooter } from 'hubble-dash-ui';
+import { DashWidget, DashWidgetFooter } from 'hubble-dash-ui';
 import type { ApplianceConfig } from '../../shared/types';
 import { evaluateConditions } from '../../shared/types';
 import { resolveStateRules, worstStatus } from '../../shared/state-utils';
@@ -26,6 +26,19 @@ function colorToBorderVariant(color: string | undefined): BorderVariant {
   return 'neutral';
 }
 
+/** Convert snake_case or slug-like values to Title Case */
+function toTitleCase(value: string): string {
+  return value
+    .replace(/[_-]/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+/** Format entity state value based on the formatState option */
+function formatValue(value: string, format?: 'raw' | 'titlecase'): string {
+  if (format === 'titlecase') return toTitleCase(value);
+  return value;
+}
+
 export default function ApplianceWidget() {
   const config = useWidgetConfig<ApplianceConfig>();
   const sdk = useHubbleSDK();
@@ -42,10 +55,20 @@ export default function ApplianceWidget() {
   const allEntityIds = useMemo(() => {
     const ids = new Set<string>();
     if (config.statusEntity) ids.add(config.statusEntity);
-    for (const cell of config.metricCells || []) ids.add(cell.entityId);
-    if (config.progressSource && config.progressSource !== 'none') ids.add(config.progressSource);
-    for (const se of config.secondaryEntities || []) ids.add(se.entityId);
-    for (const w of config.warnings || []) ids.add(w.entityId);
+    for (const cell of config.metricCells || []) {
+      if (cell.entityId) ids.add(cell.entityId);
+    }
+    if (config.progressSource && config.progressSource !== 'none' && config.progressSource !== 'calculated') {
+      ids.add(config.progressSource);
+    }
+    if (config.progressElapsedEntity) ids.add(config.progressElapsedEntity);
+    if (config.progressRemainingEntity) ids.add(config.progressRemainingEntity);
+    for (const se of config.secondaryEntities || []) {
+      if (se.entityId) ids.add(se.entityId);
+    }
+    for (const w of config.warnings || []) {
+      if (w.entityId) ids.add(w.entityId);
+    }
     return ids;
   }, [config]);
 
@@ -101,7 +124,7 @@ export default function ApplianceWidget() {
   const statusState = statusData?.state ?? '';
   const statusResolved = resolveStateRules(statusState, statusData?.attributes ?? {}, config.statusRules || []);
   const borderVariant = colorToBorderVariant(statusResolved?.color);
-  const statusLabel = statusResolved?.label ?? statusState;
+  const statusLabel = statusResolved?.label ?? toTitleCase(statusState);
   const isRunning = borderVariant !== 'neutral';
 
   // Icon path
@@ -110,16 +133,35 @@ export default function ApplianceWidget() {
   // Metric cells
   const metricCells = config.metricCells || [];
 
-  // Progress
-  const hasProgress = config.progressSource && config.progressSource !== 'none';
-  const progressData = hasProgress ? entityStates.get(config.progressSource) : undefined;
-  const progressPercent = hasProgress
-    ? Math.max(0, Math.min(100, parseFloat(progressData?.state ?? '0') || 0))
-    : 0;
+  // Progress — supports 'none', entity ID (0-100), or 'calculated' (elapsed + remaining)
+  const progressPercent = useMemo(() => {
+    if (!config.progressSource || config.progressSource === 'none') return null;
+
+    if (config.progressSource === 'calculated') {
+      const elapsedData = config.progressElapsedEntity
+        ? entityStates.get(config.progressElapsedEntity)
+        : undefined;
+      const remainingData = config.progressRemainingEntity
+        ? entityStates.get(config.progressRemainingEntity)
+        : undefined;
+      const elapsed = parseFloat(elapsedData?.state ?? '');
+      const remaining = parseFloat(remainingData?.state ?? '');
+      if (isNaN(elapsed) || isNaN(remaining)) return null;
+      const total = elapsed + remaining;
+      if (total <= 0) return null;
+      return Math.max(0, Math.min(100, (elapsed / total) * 100));
+    }
+
+    // Direct entity (0-100 value)
+    const data = entityStates.get(config.progressSource);
+    if (!data) return null;
+    const val = parseFloat(data.state);
+    if (isNaN(val)) return null;
+    return Math.max(0, Math.min(100, val));
+  }, [config.progressSource, config.progressElapsedEntity, config.progressRemainingEntity, entityStates]);
 
   // Secondary entities
-  const secondaryEntities = config.secondaryEntities || [];
-  const secondaryText = secondaryEntities
+  const secondaryText = (config.secondaryEntities || [])
     .map((se) => {
       const data = entityStates.get(se.entityId);
       if (!data) return null;
@@ -142,31 +184,35 @@ export default function ApplianceWidget() {
 
   return (
     <DashWidget statusBorder={borderVariant}>
-      <DashWidgetHeader label={config.name || ''} meta={statusLabel} />
+      {/* Custom header with inline icon */}
+      <div className="dash-widget-header">
+        <div className="ha-appliance-header-left">
+          {iconPath && (
+            <svg className={`ha-appliance-header-icon${isRunning ? '' : ' ha-appliance-icon--off'}`} width="18" height="18" viewBox="0 0 24 24">
+              <path d={iconPath} fill={isRunning ? (statusResolved?.color ?? 'currentColor') : undefined} />
+            </svg>
+          )}
+          <span className="t-label">{config.name || ''}</span>
+        </div>
+        <span className={`t-meta${isRunning && statusResolved?.color ? ' ha-appliance-status-text' : ''}`}>
+          {statusLabel}
+        </span>
+      </div>
 
       {isRunning && (
         <>
-          {/* Icon */}
-          {iconPath && (
-            <svg className="ha-appliance-icon" width="24" height="24" viewBox="0 0 24 24">
-              <path d={iconPath} fill={statusResolved?.color ?? 'currentColor'} />
-            </svg>
-          )}
-
           {/* Metric strip */}
           {metricCells.length > 0 && (
             <div className="ha-appliance-strip">
               {metricCells.map((cell) => {
                 const data = entityStates.get(cell.entityId);
-                const value = data?.state ?? '—';
+                const rawValue = data?.state ?? '\u2014';
+                const value = formatValue(rawValue, cell.formatState);
                 const unit = (data?.attributes?.unit_of_measurement as string) ?? '';
                 return (
                   <div key={cell.entityId} className="ha-appliance-cell">
-                    <div className="ha-appliance-cell-label">{cell.label.toUpperCase()}</div>
-                    <div className="t-glance-sm">
-                      {value}
-                      {unit}
-                    </div>
+                    <div className="ha-appliance-cell-label">{cell.label}</div>
+                    <div className="t-glance-sm ha-appliance-cell-value">{value}{unit}</div>
                   </div>
                 );
               })}
@@ -174,7 +220,7 @@ export default function ApplianceWidget() {
           )}
 
           {/* Progress bar */}
-          {hasProgress && (
+          {progressPercent !== null && (
             <div className="ha-appliance-progress">
               <div
                 className="ha-appliance-progress-fill"
@@ -185,7 +231,7 @@ export default function ApplianceWidget() {
 
           {/* Secondary details */}
           {secondaryText && (
-            <div className="ha-appliance-secondary">{secondaryText}</div>
+            <div className="t-meta ha-appliance-secondary">{secondaryText}</div>
           )}
 
           {/* Warnings */}
@@ -200,7 +246,7 @@ export default function ApplianceWidget() {
             </div>
           ))}
           {overflowCount > 0 && (
-            <div className="ha-appliance-warning-overflow">
+            <div className="t-meta ha-appliance-warning-overflow">
               +{overflowCount} more warning{overflowCount !== 1 ? 's' : ''}
             </div>
           )}

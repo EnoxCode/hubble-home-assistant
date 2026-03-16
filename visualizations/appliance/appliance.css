@@ -1,3 +1,19 @@
+/* ─── Custom Header (icon inline with label) ── */
+.ha-appliance-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.ha-appliance-header-icon {
+  flex-shrink: 0;
+}
+
+.ha-appliance-status-text {
+  color: var(--dash-state-positive);
+}
+
 /* ─── Metric Strip ───────────────────────── */
 .ha-appliance-strip {
   display: flex;
@@ -9,6 +25,8 @@
   flex: 1;
   padding: 6px 8px;
   background: rgba(255, 255, 255, 0.04);
+  min-width: 0;
+  overflow: hidden;
 }
 
 .ha-appliance-cell:first-child {
@@ -30,6 +48,15 @@
   text-transform: uppercase;
   color: var(--dash-text-muted);
   margin-bottom: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ha-appliance-cell-value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* ─── Progress Bar ───────────────────────── */
@@ -75,9 +102,14 @@
   color: var(--dash-state-critical);
 }
 
+/* ─── Warning Overflow ───────────────────── */
+.ha-appliance-warning-overflow {
+  margin-top: var(--dash-gap-sm);
+}
+
 /* ─── Icon ────────────────────────────────── */
 .ha-appliance-icon {
-  margin-right: 8px;
+  margin-bottom: var(--dash-gap-sm);
 }
 
 .ha-appliance-icon--off {
@@ -86,5 +118,7 @@
 
 /* ─── Secondary Meta ─────────────────────── */
 .ha-appliance-secondary {
-  color: var(--dash-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

@@ -114,9 +114,9 @@ describe('ApplianceWidget', () => {
 
     const cells = container.querySelectorAll('.ha-appliance-cell');
     expect(cells).toHaveLength(3);
-    expect(cells[0].querySelector('.ha-appliance-cell-label')?.textContent).toBe('TEMP');
-    expect(cells[1].querySelector('.ha-appliance-cell-label')?.textContent).toBe('TIME');
-    expect(cells[2].querySelector('.ha-appliance-cell-label')?.textContent).toBe('PHASE');
+    expect(cells[0].querySelector('.ha-appliance-cell-label')?.textContent).toBe('Temp');
+    expect(cells[1].querySelector('.ha-appliance-cell-label')?.textContent).toBe('Time');
+    expect(cells[2].querySelector('.ha-appliance-cell-label')?.textContent).toBe('Phase');
   });
 
   it('renders single metric cell', async () => {
@@ -219,7 +219,7 @@ describe('ApplianceWidget', () => {
     const { container } = await renderAndFlush(<ApplianceWidget />);
 
     // Running state resolves to #4ade80; the icon path fill should reflect that
-    const iconPath = container.querySelector('.ha-appliance-icon path');
+    const iconPath = container.querySelector('.ha-appliance-header-icon path');
     expect(iconPath?.getAttribute('fill')).toBe('#4ade80');
   });
 

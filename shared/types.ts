@@ -255,6 +255,8 @@ export interface MetricCell {
   label: string;
   /** HA entity ID */
   entityId: string;
+  /** Format the state value: 'raw' (default) or 'titlecase' (snake_case → Title Case) */
+  formatState?: 'raw' | 'titlecase';
 }
 
 export interface SecondaryEntity {
@@ -288,8 +290,12 @@ export interface ApplianceConfig {
   statusRules: StateRule[];
   /** Ordered metric cells shown in the strip (1–4) */
   metricCells: MetricCell[];
-  /** Progress source: 'none' or an entity ID providing a 0–100 numeric value */
+  /** Progress mode: 'none', 'entity' (0–100 value), or 'calculated' (elapsed + remaining) */
   progressSource: string;
+  /** Entity providing elapsed time in minutes (for calculated progress) */
+  progressElapsedEntity?: string;
+  /** Entity providing remaining time in minutes (for calculated progress) */
+  progressRemainingEntity?: string;
   /** Additional entities shown as secondary meta text */
   secondaryEntities: SecondaryEntity[];
   /** Warning rules — shown when visibility condition is met */
