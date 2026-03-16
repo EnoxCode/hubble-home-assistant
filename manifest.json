@@ -1,0 +1,25 @@
+{
+  "name": "hubble-home-assistant",
+  "version": "0.1.0",
+  "description": "Several visuals for home assistant data",
+  "minAppVersion": "0.1.0",
+  "type": [
+    "connector",
+    "visualization"
+  ],
+  "visualizations": [
+    {
+      "name": "default",
+      "description": "HubbleHomeAssistant default visualization",
+      "path": "default",
+      "properties": [
+        {
+          "name": "title",
+          "type": "string",
+          "required": true,
+          "description": "Widget title displayed in the edit interface"
+        }
+      ]
+    }
+  ]
+}
