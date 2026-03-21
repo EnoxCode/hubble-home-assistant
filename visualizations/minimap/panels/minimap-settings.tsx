@@ -65,7 +65,7 @@ export default function MinimapSettings({ config, onConfigChange, moduleId }: Mi
         return;
       }
       const { assetPath } = await res.json();
-      const svgUrl = `/api/modules/${moduleId}/assets/${assetPath}`;
+      const svgUrl = `/api/modules/${moduleId}/assets/${assetPath}?v=${Date.now()}`;
 
       if (floorId) {
         // Replacing SVG for existing floor
